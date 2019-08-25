@@ -235,6 +235,8 @@ class Commands:
             v = i["value"]
             i["value"] = str(PyDecimal(v)/COIN) if v is not None else None
             i["address"] = i["address"].to_ui_string()
+            i["confirmations"] = self.wallet.get_tx_height(i["prevout_hash"]).conf
+
         return l
 
     @command('n')
