@@ -233,8 +233,10 @@ class Commands:
         l = self.wallet.get_utxos(exclude_frozen=False)
         for i in l:
             v = i["value"]
+            height, conf, timestamp = self.wallet.get_tx_height(i['prevout_hash'])
             i["value"] = str(PyDecimal(v)/COIN) if v is not None else None
             i["address"] = i["address"].to_ui_string()
+            i["confirmations"] = conf
 
         return l
 
