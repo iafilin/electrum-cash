@@ -232,7 +232,11 @@ class Commands:
         outputs in your wallet."""
         l = self.wallet.get_utxos(exclude_frozen=False)
         for i in l:
-            height, conf, timestamp = self.wallet.get_tx_height(i['prevout_hash'])
+            conf = 0
+            if self.wallet.get_tx_height(i['prevout_hash'])[1]:
+                conf = self.wallet.get_tx_height(i['prevout_hash'])[1]
+            else:
+                conf = 0
             v = i["value"]
             i["value"] = str(PyDecimal(v)/COIN) if v is not None else None
             i["address"] = i["address"].to_ui_string()
