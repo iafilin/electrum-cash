@@ -235,8 +235,10 @@ class Commands:
             v = i["value"]
             i["value"] = str(PyDecimal(v)/COIN) if v is not None else None
             i["address"] = i["address"].to_ui_string()
-            height, conf, timestamp = self.wallet.get_tx_height(i["prevout_hash"])
-            i["confirmations"] = conf
+            if self.wallet.get_tx_height(i["prevout_hash"]).conf:
+                i["confirmations"] = self.wallet.get_tx_height(i["prevout_hash"]).conf
+            else:
+                i["confirmations"] = 0
 
         return l
 
